@@ -83,14 +83,48 @@ public class Aplicacion extends javax.swing.JFrame {
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
         String num1 = txtNum1.getText();
         String num2 = txtNum2.getText();
-        //software arroja error (seguido por otro) si el operador no es valido, pero los 2 numeros no estan validados
+        /**
+         * Validado
+         * No estoy seguro de que sea bueno que el software tire mas de un error
+         * si detecta varios tipos de error, pero tampoco se si sea buena idea
+         * simplemente decir que hay un eror sin dar informacion de en donde
+         * esta el error
+         */
 
-        int numero1;
-        int numero2;
+        int numero1 = 0;
+        int numero2 = 0;
         int res = 0;
+        boolean numerosValidos = true;
+        boolean hayError = false;
+//        String regex = "\\d+";
 
-        numero1 = Integer.parseInt(num1);
-        numero2 = Integer.parseInt(num2);
+//        if(!num1.matches(regex)|| !num2.matches(regex) || (!num1.matches(regex)&& !num2.matches(regex)) || num1.isEmpty() || num2.isEmpty() || (num1.isEmpty() && num2.isEmpty()) ){
+//           numerosValidos = false; 
+//        }
+//        numero1 = Integer.parseInt(num1);
+//        numero2 = Integer.parseInt(num2);
+//        if (num1.isEmpty() || num2.isEmpty() || (num1.isEmpty() && num2.isEmpty())) {
+//            numerosValidos = false;
+//        }
+        try {
+            numero1 = Integer.parseInt(num1);
+            numero2 = Integer.parseInt(num2);
+        } catch (Exception e) {
+            numerosValidos = false;
+        }
+
+        if (!numerosValidos) {
+            String ttlNoHayNumerosValidos = "Error";
+            String msgNoHayNumerosValidos = "Ambos campos de numeros deben ser numeros enteros";
+            int tipoErrorN = JOptionPane.ERROR_MESSAGE;
+
+            JOptionPane.showMessageDialog(this, msgNoHayNumerosValidos, ttlNoHayNumerosValidos, tipoErrorN);
+
+            txtNum1.setText(null);
+            txtNum2.setText(null);
+            
+            hayError = true;
+        }
 
         String operacion = txtOperador.getText();
         String tipoDeOperacion = "nada";
@@ -101,9 +135,11 @@ public class Aplicacion extends javax.swing.JFrame {
             int tipoError = JOptionPane.ERROR_MESSAGE;
 
             JOptionPane.showMessageDialog(this, mensajeError, tituloError, tipoError);
-            
+
             txtNum1.setText(null);
             txtNum2.setText(null);
+            hayError = true;
+
         } else if (operacion.equalsIgnoreCase("+")) {
             res = numero1 + numero2;
             tipoDeOperacion = "suma";
@@ -119,25 +155,27 @@ public class Aplicacion extends javax.swing.JFrame {
 
         }
 
-         if (operacion.equals("+") || operacion.equals("-") || operacion.equals("/") || operacion.equals("*")) {
-
+//        if (operacion.equals("+") || operacion.equals("-") || operacion.equals("/") || operacion.equals("*")) {
+        if (!hayError) {
             String titulo = "Resultado";
             String mensaje = "El resultado de la " + tipoDeOperacion + " entre " + num1 + " y " + num2 + " es " + res;
             int tipo = JOptionPane.INFORMATION_MESSAGE;
 
             JOptionPane.showMessageDialog(this, mensaje, titulo, tipo);
-        }else{
-            txtNum1.setText(null);
-            txtNum2.setText(null);
-            txtOperador.setText(null);
-            
-            String tituloErrorIngreso="Error en el ingreso de datos";
-            String msgErrorIngreso="No hay operadores validos en el campo de operadores";
-            int tipoErrorAlCalcular=JOptionPane.ERROR_MESSAGE;
-            JOptionPane.showMessageDialog(null,msgErrorIngreso , tituloErrorIngreso, tipoErrorAlCalcular);
-            
+
         }
 
+//        } else {
+//            txtNum1.setText(null);
+//            txtNum2.setText(null);
+//            txtOperador.setText(null);
+//
+//            String tituloErrorIngreso = "Error en el ingreso de datos";
+//            String msgErrorIngreso = "No hay operadores validos en el campo de operadores";
+//            int tipoErrorAlCalcular = JOptionPane.ERROR_MESSAGE;
+//            JOptionPane.showMessageDialog(null, msgErrorIngreso, tituloErrorIngreso, tipoErrorAlCalcular);
+//
+//        }
 
     }//GEN-LAST:event_btnCalcularActionPerformed
 
