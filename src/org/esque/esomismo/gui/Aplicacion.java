@@ -6,6 +6,9 @@ public class Aplicacion extends javax.swing.JFrame {
 
     public Aplicacion() {
         initComponents();
+        this.setTitle("Calculadora simple");
+        
+        
     }
 
     @SuppressWarnings("unchecked")
